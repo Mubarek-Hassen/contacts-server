@@ -15,4 +15,17 @@ export const registerUser = async(req,res)=>{
   res.json({ msg: "user registered successfully!"})
 }
 //LOGIN USER
+export const loginUser = async (req, res)=>{
+  const { email, password } = req.body;
+  const user = await userModel.findOne({ email });
+  if(!user){
+    return res.json({ msg: "User doesn't exist!" })
+  }
+  const isPasswordValid = await bcrypt.compare(password, user.password);
 
+  if(!isPasswordValid){
+    return res.json({ msg: "Email or Password is incorrect!" });
+  }
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+  return res.json({ token, userId: user._id });
+}
