@@ -22,9 +22,9 @@ const getContact = async(req,res)=>{
 const createContact = async(req, res)=>{
   const { name, profession } = req.body
   try {
-    // if( !name || !profession){
-    //   return res.json({ msg: "All fields must be filled!"})
-    // }
+    if( !name || !profession){
+      return res.json({ msg: "All fields must be filled!"})
+    }
     const contact = await contactModel.create({ name, profession })
     res.json(contact)
   } catch (error) {
@@ -34,12 +34,24 @@ const createContact = async(req, res)=>{
 //UPDATE A CONTACT
 const updateContact = async (req,res)=>{
   const { name, profession } = req.body;
+  const { id } = req.params
   try {
-    
+    const updatedContact = await contactModel.findByIdAndUpdate(id, { name, profession })
+    res.json(updatedContact)
   } catch (error) {
     console.error(error)
-    console.log(error)
   }
 }
 
-export { getContacts, getContact, createContact }
+//DELETE A CONTACT
+const deleteContact = async(req,res)=>{
+  const { id } = req.params;
+  try {
+    const deletedCard = await contactModel.findByIdAndRemove(id)
+    res.json(id)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export { getContacts, getContact, createContact, updateContact, deleteContact }
