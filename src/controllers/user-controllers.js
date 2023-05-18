@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 // REGISTER USER
-export const registerUser = async(req,res)=>{
+const registerUser = async(req,res)=>{
   const { name, email, password } = req.body;
   const user = await userModel.findOne({ email });
   if(user){
@@ -15,7 +15,7 @@ export const registerUser = async(req,res)=>{
   res.json({ msg: "user registered successfully!"})
 }
 //LOGIN USER
-export const loginUser = async (req, res)=>{
+const loginUser = async (req, res)=>{
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
   if(!user){
@@ -29,3 +29,5 @@ export const loginUser = async (req, res)=>{
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
   return res.json({ token, userId: user._id });
 }
+
+export { loginUser, registerUser }
