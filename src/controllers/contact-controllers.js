@@ -22,13 +22,23 @@ const getContact = async(req,res)=>{
 const createContact = async(req, res)=>{
   const { name, profession } = req.body
   try {
-    if( !name || !profession){
-      return res.json({ msg: "All fields must be filled!"})
-    }
+    // if( !name || !profession){
+    //   return res.json({ msg: "All fields must be filled!"})
+    // }
     const contact = await contactModel.create({ name, profession })
     res.json(contact)
   } catch (error) {
     console.error(error)
+  }
+}
+//UPDATE A CONTACT
+const updateContact = async (req,res)=>{
+  const { name, profession } = req.body;
+  try {
+    
+  } catch (error) {
+    console.error(error)
+    console.log(error)
   }
 }
 
