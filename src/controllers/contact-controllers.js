@@ -3,7 +3,7 @@ import contactModel from "../models/contact-model.js";
 //GET ALL CONTACTS
 const getContacts = async(req,res)=>{
   try {
-    const contacts = await contactModel.find({})
+    const contacts = await contactModel.find({ user: req.user.id })
     res.json(contacts)
   } catch (error) {
     console.error(error)
@@ -25,7 +25,7 @@ const createContact = async(req, res)=>{
     if( !name || !profession){
       return res.json({ msg: "All fields must be filled!"})
     }
-    const contact = await contactModel.create({ name, profession })
+    const contact = await contactModel.create({ name, profession, user: req.user._id })
     res.json(contact)
   } catch (error) {
     console.error(error)

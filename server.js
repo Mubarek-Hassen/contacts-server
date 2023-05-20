@@ -16,6 +16,4 @@ app.use(express.urlencoded({extended: true}))
 app.use("/user", userRouter)
 app.use("/contacts", contactRouter)
 
-// app.get("/test", (req, res)=> res.send("Test route!"))
-
 app.listen(PORT, ()=> console.log(`Server running on PORT: ${PORT}`))
