@@ -7,7 +7,7 @@ import "./src/config/db.connection.js"
 
 dotenv.config()
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 4001;
 
 //MIDDLEWARES
 app.use(cors())
