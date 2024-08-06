@@ -3,7 +3,8 @@ import contactModel from "../models/contact-model.js";
 //GET ALL CONTACTS
 const getContacts = async(req,res)=>{
   try {
-    const contacts = await contactModel.find({ user: req.user.id })
+    // const contacts = await contactModel.find({ user: req.user.id })
+    const contacts = await contactModel.find()
     res.json(contacts)
   } catch (error) {
     console.error(error)
@@ -28,7 +29,7 @@ const createContact = async(req, res)=>{
     const contact = await contactModel.create({ name, profession, user: req.user._id })
     res.json(contact)
   } catch (error) {
-    console.error(error)
+    res.json(error)
   }
 }
 //UPDATE A CONTACT
@@ -46,9 +47,10 @@ const updateContact = async (req,res)=>{
 //DELETE A CONTACT
 const deleteContact = async(req,res)=>{
   const { id } = req.params;
+  console.log(id)
   try {
     const deletedCard = await contactModel.findByIdAndRemove(id)
-    res.json(id)
+    res.send(id)
   } catch (error) {
     console.error(error)
   }
