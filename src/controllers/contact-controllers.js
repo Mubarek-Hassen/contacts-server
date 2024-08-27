@@ -3,8 +3,7 @@ import contactModel from "../models/contact-model.js";
 //GET ALL CONTACTS
 const getContacts = async(req,res)=>{
   try {
-    // const contacts = await contactModel.find({ user: req.user.id })
-    const contacts = await contactModel.find()
+    const contacts = await contactModel.find({ user: req.user.id })
     res.json(contacts)
   } catch (error) {
     console.error(error)
@@ -17,6 +16,7 @@ const getContact = async(req,res)=>{
     res.json(contact)
   } catch (error) {
     console.error(error)
+    res.json({msg: error})
   }
 }
 //CREATE A CONTACT

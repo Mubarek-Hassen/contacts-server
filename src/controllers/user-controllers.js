@@ -10,10 +10,10 @@ const registerUser = async (req, res) => {
   if(!email) errors.email = "Email field cannot be empty!"
   if(!password) errors.password = "Password field cannot be empty!"
 
+  if(!name || !email || !password){
+    return res.status(400).json(errors)
+  }
   try {
-    if(!name || !email || !password){
-      return res.json(errors)
-    }
   const user = await userModel.findOne({ email });
   if (user) {
     return res.json({ msg: "User already exist!" });
@@ -31,23 +31,28 @@ const registerUser = async (req, res) => {
 }
 };
 
-
-
 //! LOGIN USER
-
-
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-
+  let errors = {};
+  if(!email) errors.email = "Email field cannot be empty."
+  if(!password) errors.password = "Password field cannot be empty."
   try {
+    if(!email || !password){
+      return res.json(errors)
+    }
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(401).send({msg: "email does not exist in database"})
+      errors.email = "There is no user registered for this email."
+      // return res.status(401).send({msg: "email does not exist in database"})
+      return res.status(404).json(errors)
     }
     
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({msg: "invalid - password"})
+      errors.password = "Invalid credentials."
+      // return res.status(401).json({msg: "invalid - password"})
+      return res.status(401).json(errors)
     }
     
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
