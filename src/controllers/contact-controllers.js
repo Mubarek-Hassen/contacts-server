@@ -21,12 +21,12 @@ const getContact = async(req,res)=>{
 }
 //CREATE A CONTACT
 const createContact = async(req, res)=>{
-  const { name, profession } = req.body
+  const { name, profession, image, email, social_media_link } = req.body
   try {
-    if( !name || !profession){
+    if( !name ){
       return res.json({ msg: "All fields must be filled!"})
     }
-    const contact = await contactModel.create({ name, profession, user: req.user._id })
+    const contact = await contactModel.create({ name, profession, image, email, social_media_link, user: req.user._id })
     res.json(contact)
   } catch (error) {
     res.json(error)
@@ -37,7 +37,7 @@ const updateContact = async (req,res)=>{
   const { name, profession } = req.body;
   const { id } = req.params
   try {
-    const updatedContact = await contactModel.findByIdAndUpdate(id, { name, profession })
+    const updatedContact = await contactModel.findByIdAndUpdate(id, { name, profession, image, email, social_media_link, })
     res.json(updatedContact)
   } catch (error) {
     console.error(error)

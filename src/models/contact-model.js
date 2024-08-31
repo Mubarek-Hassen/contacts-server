@@ -1,10 +1,11 @@
 import mongoose, { Schema, model } from "mongoose";
 
 const contactSchema = new Schema({
-  name: { type: String },
+  name: { type: String, required: true },
   profession: { type: String },
-  // location: { type: String },
-  // company: { type: String },
+  image: { type: String },
+  email: { type: String },
+  social_media_link: { type: String },
   user: { 
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
