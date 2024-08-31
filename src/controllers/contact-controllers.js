@@ -34,10 +34,11 @@ const createContact = async(req, res)=>{
 }
 //UPDATE A CONTACT
 const updateContact = async (req,res)=>{
-  const { name, profession } = req.body;
   const { id } = req.params
+  const { name } = req.body
   try {
-    const updatedContact = await contactModel.findByIdAndUpdate(id, { name, profession, image, email, social_media_link, })
+    if(!name) return res.status(401).json("Please fill the name field")
+    const updatedContact = await contactModel.findByIdAndUpdate(id, req.body)
     res.json(updatedContact)
   } catch (error) {
     console.error(error)
