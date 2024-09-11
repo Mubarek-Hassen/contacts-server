@@ -4,9 +4,10 @@ import contactModel from "../models/contact-model.js";
 const getContacts = async(req,res)=>{
   try {
     const contacts = await contactModel.find({ user: req.user.id })
-    res.json(contacts)
+    return res.json(contacts)
   } catch (error) {
     console.error(error)
+    return res.status(500).json({message: error.message})
   }
 }
 //GET A CONTACT
@@ -16,7 +17,7 @@ const getContact = async(req,res)=>{
     res.json(contact)
   } catch (error) {
     console.error(error)
-    res.json({msg: error})
+    res.status(500).json({message: error.message})
   }
 }
 //CREATE A CONTACT
@@ -24,12 +25,13 @@ const createContact = async(req, res)=>{
   const { name, profession, image, email, social_media_link } = req.body
   try {
     if( !name ){
-      return res.json({ msg: "All fields must be filled!"})
+      return res.json({ error: "All fields must be filled!"})
     }
     const contact = await contactModel.create({ name, profession, image, email, social_media_link, user: req.user._id })
     res.json(contact)
   } catch (error) {
-    res.json(error)
+    // res.json({error: error})
+    res.status(500).json({message: error.message})
   }
 }
 //UPDATE A CONTACT
@@ -42,6 +44,7 @@ const updateContact = async (req,res)=>{
     res.json(updatedContact)
   } catch (error) {
     console.error(error)
+    res.status(500).json({message: error.message})
   }
 }
 
@@ -54,6 +57,7 @@ const deleteContact = async(req,res)=>{
     res.send(id)
   } catch (error) {
     console.error(error)
+    res.status(500).json({message: error.message})
   }
 }
 
