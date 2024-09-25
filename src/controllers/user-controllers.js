@@ -9,7 +9,6 @@ const registerUser = async (req, res) => {
   if (!name) errors.name = "Name field cannot be empty!";
   if (!email) errors.email = "Email field cannot be empty!";
   if (!password) errors.password = "Password field cannot be empty!";
-
   if (!name || !email || !password) {
     return res.status(400).json(errors);
   }
@@ -18,7 +17,6 @@ const registerUser = async (req, res) => {
     if (user) {
       errors.email = "User with this email already exist!"
       return res.json(errors);
-      // return res.json({ msg: "User with this email already exist!", errors });
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -54,10 +52,8 @@ const loginUser = async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       errors.password = "Invalid credentials.";
-      // return res.status(401).json({msg: "invalid - password"})
       return res.status(401).json(errors);
     }
-
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });

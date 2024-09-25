@@ -4,11 +4,9 @@ import dotenv from "dotenv"
 import userRouter from "./src/routes/user-routes.js"
 import contactRouter from "./src/routes/contact-routes.js"
 import "./src/config/db.connection.js"
-
 dotenv.config()
 const app = express();
 const PORT = process.env.PORT || 4001;
-
 //MIDDLEWARES
 app.use(cors())
 app.use(express.json())

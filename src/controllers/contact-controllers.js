@@ -47,7 +47,6 @@ const updateContact = async (req,res)=>{
     res.status(500).json({message: error.message})
   }
 }
-
 //DELETE A CONTACT
 const deleteContact = async(req,res)=>{
   const { id } = req.params;
